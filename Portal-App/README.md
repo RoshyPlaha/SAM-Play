@@ -2,17 +2,6 @@
 Code deployment found inside Infrastructure folder
 TB have indicated they use Trophosphere to generate CloudFormation scripts
 
-#### Trophosphere w/ Python to manage Infrastructure as Code
-A tool to generate Cloudformation scripts. Trophosphere is written in Python. Please install Python >= 3.6.
-We recommend using a virtualenv when working with Python. That way, you wont interfere with other projects / system dependencies that require a certain version of python.
-
-To install and use VirtualEnv, use: https://docs.python.org/3/library/venv.html
-
-To activate the correct virtualEnv in your existing terminal run:
-source <env-name-here>/bin/activate
-
-You should then install boto3 and the awscli into this virtualenv by using pip
-
 #### Installing the AWS SAM (Server Application Model)
 https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install-linux.html 
 
@@ -35,3 +24,19 @@ npm test <path to file here>
 ### AWS CLI (do this after install Python)
 Cloudformation (or any other Infrastructure as Code tool using the AWS CLI behind the scenes to upload your code and configuration to the correct AWS account. It is the AWS CLI that determines which AWS account is used)
 Instructions are here: https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html 
+
+### Running the code locally
+No tests have been done to run authorizors locally for cognito. However, unauthorised endpoints can be tested locally w/ DynamoDB.
+You will need to install docker to run locally. Then, from the root of the project you can run:
+sam local start-api
+
+### Deploying the code
+This project uses the AWS SAM Template, so there's a few steps we need to go through
+1) sam build (do this at the level where the template.yml exists. This scans the project folders for all dependencies and places all resources in a staging folder: .aws-sam/build)
+2) sam package --output-template packaged.yml --s3-bucket <bucketName> (e.g rosho-sam-test) (This step just uploads it to s3 w/ dependencies and produces this packaged.yml that states the s3 location)
+3) sam deploy --template-file packaged.yml --region eu-west-2 --capabilities CAPABILITY_IAM --stack-name tb-rosho
+
+
+#### Cognito User Sign up
+Quickest to sign up a user is to make use of the helper folder in this repository:
+- This is a small node project that helps you create users (agents) and generate the identity token we need to pass to restricted endpoints e.g. getMetrics
