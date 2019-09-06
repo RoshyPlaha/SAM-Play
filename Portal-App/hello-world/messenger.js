@@ -12,8 +12,6 @@ const validateNumber = (mobileNumber) => {
 }
 
 const sendMessage = async (mobileNumber, message) => {
-    console.log('Can send a message now')
-
     return new Promise((res, rej) => {
         const formattedNumber = validateNumber(mobileNumber);
 
@@ -27,7 +25,7 @@ const sendMessage = async (mobileNumber, message) => {
             PhoneNumber: formattedNumber,
         }
 
-        publishTextPromise = new AWS.SNS({ apiVersion: '2010-03-31', region: 'eu-west-1' }).publish(params).promise(); // only west 1 is supported in eu
+        publishTextPromise = new AWS.SNS({ apiVersion: '2010-03-31', region: 'eu-west-1' }).publish(params).promise(); // only eu-west-1 is supported in eu
 
         console.log('OK to send text message');
         publishTextPromise.then((data) => {
@@ -35,7 +33,6 @@ const sendMessage = async (mobileNumber, message) => {
             return res('OK to send message');
         }).catch((err) => {
             console.log('an error occured');
-            console.error(err, err.stack);
             return rej('Failed to send message');
         });
     }).catch((err) => {
