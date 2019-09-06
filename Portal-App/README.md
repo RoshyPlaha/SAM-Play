@@ -37,6 +37,9 @@ This project uses the AWS SAM Template, so there's a few steps we need to go thr
 3) sam deploy --template-file packaged.yml --region eu-west-2 --capabilities CAPABILITY_IAM --stack-name tb-rosho
 
 
-#### Cognito User Sign up
+### Cognito User Sign up
 Quickest to sign up a user is to make use of the helper folder in this repository:
 - This is a small node project that helps you create users (agents) and generate the identity token we need to pass to restricted endpoints e.g. getMetrics
+
+### Useful Articles
+https://github.com/awslabs/serverless-application-model/blob/master/examples/2016-10-31/api_cognito_auth/template.yaml
