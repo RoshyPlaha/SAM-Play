@@ -10,7 +10,27 @@ Globals:
   Function:
     Timeout: 3
 
+Parameters:
+  CognitoUserPoolName:
+    Type: String
+    Default: PAUserPool
+
+  CognitoUserPoolClientName:
+    Type: String
+    Default: PAUserPoolClient
+
 Resources:
+  AgentApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Cors: "'*'"
+      Auth:
+        DefaultAuthorizer: MyCognitoAuthorizer
+        Authorizers:
+          MyCognitoAuthorizer:
+            UserPoolArn: !GetAtt MyCognitoUserPool.Arn
+    
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -21,8 +41,10 @@ Resources:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
+            RestApiId: !Ref AgentApi
             Path: /hello
             Method: get
+
   SubmitOptionFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -35,6 +57,27 @@ Resources:
           Properties:
             Path: /submitOption
             Method: post
+  
+  MyCognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: !Ref CognitoUserPoolName
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+      UsernameAttributes:
+        - email
+      Schema:
+        - AttributeDataType: String
+          Name: email
+          Required: false
+
+  MyCognitoUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId: !Ref MyCognitoUserPool
+      ClientName: !Ref CognitoUserPoolClientName
+      GenerateSecret: false
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
@@ -49,3 +92,15 @@ Outputs:
   HelloWorldFunctionIamRole:
     Description: "Implicit IAM Role created for Hello World function"
     Value: !GetAtt HelloWorldFunctionRole.Arn
+  CognitoUserPoolId:
+    Description: "Cognito User Pool Id"
+    Value: !Ref MyCognitoUserPool
+  CognitoUserPoolClientId:
+    Description: "Cognito User Pool Client Id"
+    Value: !Ref MyCognitoUserPoolClient
+  AgentApiId:
+    Description: "API Agent ID"
+    Value: !Ref AgentApi
+  AgentApiUrl:
+    Description: "API endpoint for stage: prod"
+    Value: !Sub 'https://${AgentApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/'
