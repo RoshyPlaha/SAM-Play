@@ -51,6 +51,13 @@ Resources:
       CodeUri: hello-world/
       Handler: submitOption.lambdaHandler
       Runtime: nodejs8.10
+      Policies:
+      - Statement:
+        - Sid: DoSomeSNSThings
+          Effect: Allow
+          Action:
+          - sns:*
+          Resource: '*'
       Events:
         SubmitOption:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
