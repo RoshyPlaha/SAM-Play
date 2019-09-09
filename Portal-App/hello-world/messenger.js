@@ -35,6 +35,7 @@ const sendMessage = async (mobileNumber, message) => {
             console.log('an error occured');
             return rej('Failed to send message');
         });
+
     }).catch((err) => {
         throw (err)
     });
