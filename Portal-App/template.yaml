@@ -106,7 +106,39 @@ Resources:
       ProvisionedThroughput: 
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
-        
+
+  FrontendTBBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: tb-rosho-frontend-bucket-new-thing
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+      VersioningConfiguration:
+        Status: Enabled
+    DeletionPolicy: Retain
+  
+  SampleBucketPolicy: 
+    Type: AWS::S3::BucketPolicy
+    Properties: 
+      Bucket: 
+        Ref: "FrontendTBBucket"
+      PolicyDocument: 
+        Statement: 
+          - 
+            Action: 
+              - "s3:GetObject"
+            Effect: "Allow"
+            Resource: 
+              Fn::Join: 
+                - ""
+                - 
+                  - "arn:aws:s3:::"
+                  - 
+                    Ref: "FrontendTBBucket"
+                  - "/*"
+            Principal: "*"
+          
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
@@ -132,3 +164,6 @@ Outputs:
   AgentApiUrl:
     Description: "API endpoint for stage: prod"
     Value: !Sub 'https://${AgentApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/'
+  FrontEndUrl:
+    Description: "User Interface in React for end users"
+    Value: !GetAtt FrontendTBBucket.WebsiteURL
