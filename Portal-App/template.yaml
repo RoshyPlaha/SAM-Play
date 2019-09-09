@@ -9,6 +9,9 @@ Description: >
 Globals:
   Function:
     Timeout: 3
+    Environment:
+      Variables: # these will be important later
+        DYNAMO_TABLE: !Ref CustomersDBTable
 
 Parameters:
   CognitoUserPoolName:
@@ -58,6 +61,11 @@ Resources:
           Action:
           - sns:*
           Resource: '*'
+        - Sid: DoSomeDynamoThings
+          Effect: Allow
+          Action:
+          - dynamodb:*
+          Resource: '*'
       Events:
         SubmitOption:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -86,6 +94,19 @@ Resources:
       ClientName: !Ref CognitoUserPoolClientName
       GenerateSecret: false
 
+  CustomersDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      AttributeDefinitions: 
+        - AttributeName: id
+          AttributeType: S
+      KeySchema: 
+        - AttributeName: id
+          KeyType: HASH
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+        
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM

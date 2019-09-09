@@ -1,6 +1,5 @@
-const axios = require('axios')
 const messenger = require('./messenger')
-const url = 'http://checkip.amazonaws.com/';
+const persist = require('./persist')
 const personalisedMessage = "Thank you for submitting your preferences";
 let response;
 
@@ -21,19 +20,19 @@ exports.lambdaHandler = async (event, context) => {
 
         const body = JSON.parse(event.body);
 
-        if (!body || !body.ID || !body.postCode || !body.mobileNumber) {
+        if (!body || !body.ID || !body.postCode || !body.mobileNumber || !body.option) {
             throw('No body defined or missing key fields!')
         }
     
-        const ret = await axios(url);
-
         await messenger.sendMessage(body.mobileNumber, personalisedMessage)
         .then(() => {
+            let persistPromise = persist.savePreferences(body.ID, body.option)
+            return persistPromise;
+        }).then((data) => {
             response = {
                 'statusCode': 200,
                 'body': JSON.stringify({
                     message: 'Preferences submitted',
-                    location: ret.data.trim(),
                     identification: body.ID
                 })
             }
