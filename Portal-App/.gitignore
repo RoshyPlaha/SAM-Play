@@ -131,5 +131,5 @@ packaged.yml
 
 # FrontEnd code
 front-end/node_modules/
-front-end/build
+front-end/build/
 # End of https://www.gitignore.io/api/osx,node,linux,windows
