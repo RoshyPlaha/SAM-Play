@@ -45,4 +45,4 @@ Quickest to sign up a user is to make use of the helper folder in this repositor
 
 ### Useful Articles
 https://github.com/awslabs/serverless-application-model/blob/master/examples/2016-10-31/api_cognito_auth/template.yaml
-
+https://medium.com/ovrsea/a-domain-name-for-your-react-app-c05821fd3518 
