@@ -12,6 +12,13 @@ Globals:
     Environment:
       Variables: # these will be important later
         DYNAMO_TABLE: !Ref CustomersDBTable
+  Api:
+    # enable CORS; to make more specific, change the origin wildcard
+    # to a particular domain name, e.g. "'www.example.com'"
+    Cors:
+      AllowMethods: "'*'"
+      AllowHeaders: "'*'"
+      AllowOrigin: "'*'"
 
 Parameters:
   CognitoUserPoolName:

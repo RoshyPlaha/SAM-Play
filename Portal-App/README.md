@@ -47,3 +47,4 @@ Quickest to sign up a user is to make use of the helper folder in this repositor
 https://github.com/awslabs/serverless-application-model/blob/master/examples/2016-10-31/api_cognito_auth/template.yaml
 https://medium.com/ovrsea/a-domain-name-for-your-react-app-c05821fd3518 
 https://stackoverflow.com/questions/35190615/api-gateway-cors-no-access-control-allow-origin-header
+https://github.com/aws-samples/startup-kit-serverless-workload/blob/master/serverless.cfn.yml
