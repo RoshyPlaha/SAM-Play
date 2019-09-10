@@ -5,11 +5,12 @@ import './App.css';
 class CustomerForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { id: '', mobileNumber: '', postcode: 'DA', option: 'A' };
+    this.state = { id: '', mobileNumber: '', postcode: 'DA', selectedOption: 'A' };
 
     this.handleMobileNumberChange = this.handleMobileNumberChange.bind(this);
     this.handleIdChange = this.handleIdChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleOptionChange = this.handleOptionChange.bind(this);
   }
 
   handleIdChange(event) {
@@ -24,8 +25,12 @@ class CustomerForm extends React.Component {
     this.setState({ postcode: event.target.value });
   }
 
+  handleOptionChange(event) {
+    this.setState({ selectedOption: event.target.value });
+  }
+
   handleSubmit(event) {
-    alert('A id was submitted: ' + this.state.id + ' and number:' + this.state.mobileNumber);
+    alert('A id was submitted: ' + this.state.id + ' and number:' + this.state.mobileNumber + 'and option chosen: ' + this.state.selectedOption);
     event.preventDefault();
 
     fetch('https://a2ezxgmole.execute-api.eu-west-2.amazonaws.com/Prod/submitOption', {
@@ -39,7 +44,7 @@ class CustomerForm extends React.Component {
         postCode: this.state.postcode,
         accountNumber: '209292',
         mobileNumber: this.state.mobileNumber,
-        option: this.state.option
+        option: this.state.selectedOption
       })
     })
   }
@@ -47,7 +52,7 @@ class CustomerForm extends React.Component {
   render() {
     return (
       <div className="form-style-6">
-        <h1>Choose your plan</h1>
+        <h1>My details</h1>
         <form onSubmit={this.handleSubmit}>
           <label>
             Identification Number:
@@ -57,6 +62,10 @@ class CustomerForm extends React.Component {
             Mobile Number:
           <input type="text" value={this.state.value} onChange={this.handleMobileNumberChange} />
           </label><br />
+          <h1>Choose your plan</h1>
+          <input type="radio" name="demo" value="one" id="radio-one" className="form-radio" checked={this.state.selectedOption === "one"} onChange={this.handleOptionChange} /><label htmlFor="radio-one">Option A</label>
+          <input type="radio" name="demo" value="two" id="radio-two" className="form-radio" checked={this.state.selectedOption === "two"} onChange={this.handleOptionChange} /><label htmlFor="radio-two">Option B</label>
+          <input type="radio" name="demo" value="three" id="radio-three" className="form-radio" checked={this.state.selectedOption === "three"} onChange={this.handleOptionChange} /><label htmlFor="radio-three">Option C</label>
           <input type="submit" value="Submit" />
         </form>
       </div>
