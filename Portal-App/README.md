@@ -2,6 +2,9 @@
 This is an example project which allows a customer to choose some preferences and get a text sent to them, confirming they have submitted their options.
 The project infrastructure is all based on AWS. The backend code is written in NodeJS 8.10 and the Front-end is React. NPM is used for both to manage dependencies.
 
+### The Architecture
+![](RoshyBankAWSInfrastructure.png)
+
 #### Setup
 ##### Installing the AWS SAM (Server Application Model)
 https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install-linux.html 
