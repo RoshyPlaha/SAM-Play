@@ -1,6 +1,5 @@
 const messenger = require('./messenger')
 const persist = require('./persist')
-const personalisedMessage = "Thank you for submitting your preferences";
 let response;
 
 /**
@@ -24,6 +23,7 @@ exports.lambdaHandler = async (event, context) => {
             throw ('No body defined or missing key fields!')
         }
 
+        const personalisedMessage = `Thank you for submitting your preferences for Option ${body.option}`;
         await messenger.sendMessage(body.mobileNumber, personalisedMessage)
             .then(() => {
                 let persistPromise = persist.savePreferences(body.ID, body.option)

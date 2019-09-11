@@ -63,9 +63,9 @@ class CustomerForm extends React.Component {
           <input type="text" value={this.state.value} onChange={this.handleMobileNumberChange} />
           </label><br />
           <h1>Choose your plan</h1>
-          <input type="radio" name="demo" value="one" id="radio-one" className="form-radio" checked={this.state.selectedOption === "one"} onChange={this.handleOptionChange} /><label htmlFor="radio-one">Option A</label>
-          <input type="radio" name="demo" value="two" id="radio-two" className="form-radio" checked={this.state.selectedOption === "two"} onChange={this.handleOptionChange} /><label htmlFor="radio-two">Option B</label>
-          <input type="radio" name="demo" value="three" id="radio-three" className="form-radio" checked={this.state.selectedOption === "three"} onChange={this.handleOptionChange} /><label htmlFor="radio-three">Option C</label>
+          <input type="radio" name="demo" value="A" id="radio-one" className="form-radio" checked={this.state.selectedOption === "A"} onChange={this.handleOptionChange} /><label htmlFor="radio-one">Option A</label>
+          <input type="radio" name="demo" value="B" id="radio-two" className="form-radio" checked={this.state.selectedOption === "B"} onChange={this.handleOptionChange} /><label htmlFor="radio-two">Option B</label>
+          <input type="radio" name="demo" value="C" id="radio-three" className="form-radio" checked={this.state.selectedOption === "C"} onChange={this.handleOptionChange} /><label htmlFor="radio-three">Option C</label>
           <input type="submit" value="Submit" />
         </form>
       </div>

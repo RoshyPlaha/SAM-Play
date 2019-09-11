@@ -61,7 +61,7 @@ In order to access this endppint, you need to create a user. Prereq is having th
 - This is a small node project that helps you create users (agents) and generate the identity token we need to pass to restricted endpoints e.g. getMetrics
 2) Input the pool and client id and run: userMgmt/RegisterAgentUser.js 
 3) Accept the User as authorized in the aws console
-4) Run: node userMgmt/LoginAgentUser.js This will return an id token
+4) Run: node userMgmt/LoginAgentUser.js This will return an id token    
 5) Set the headers in Chrome or Postman to have a key of: Authorization and value of: <id token>
 
 ### Useful Articles
